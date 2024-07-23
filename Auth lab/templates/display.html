@@ -1,0 +1,26 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Quotes</title>
+</head>
+<body>
+    <h2>Quotes</h2>
+    
+    {% if quotes %}
+        <ul>
+            {% for key, quote in quotes.items() %}
+                <li>
+                    <strong>Quote:</strong> {{ quote.text }}<br>
+                    <strong>Said by:</strong> {{ quote.said_by }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No quotes available.</p>
+    {% endif %}
+    
+    <p><a href="/">Home</a></p>
+</body>
+</html>
