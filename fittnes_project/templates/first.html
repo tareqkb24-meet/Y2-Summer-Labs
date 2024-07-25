@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		
+	</title>
+</head>
+<body>
+	<center>
+		<form  action="{{ url_for('submit') }}" method="post">
+			<h1>Personal details</h1>
+			gender<input type="text" name="gender", placeholder="whats your gender">
+			
+        
+		</form>
+	</center>
+	<center>
+
+	<center>
+		<form  action="{{ url_for('submit') }}" method="post">
+			<label for="cars">whats your age:</label>
+			<select id="age" name="age">
+  			<option value="old">43+</option>
+  			<option value="adult">35_43</option>
+  			<option value="young_adult">25_35</option>
+  			<option value="young">18_25</option>
+			</select>
+			<label for="weight">Weight (kg):</label>
+        	<input type="number" id="weight" name="weight" required><br><br>
+        	<label for="height">Height (cm):</label>
+        	<input type="number" id="height" name="height" required><br><br>
+        	<input type="radio" name="loseweight">loseweight 	
+			<input type="radio" name="loseweight">gainweight 
+        
+		</form>
+	</center>
+	<center>
+		<form  action="{{ url_for('submit') }}" method="post">
+			
+        	<input type="submit" value="Submit">
+		</form>
+	</center>
+
+
+</body>
+</html>
