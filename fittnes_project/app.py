@@ -32,22 +32,21 @@ firebase = pyrebase.initialize_app(Config)
 db =firebase.database()
 auth = firebase.auth()
 @app.route('/signup', methods=['GET', 'POST']) 
-
-
 def signup():
-  
-  if request.method == 'POST':
+    if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
+        full_name = request.form['fullname']
+        username = request.form['Username']
         
-        login_session['quotes'] = []
+        
         try:
-          user = {"email": user}
-          UID = login_session['user']["localId"]
-          db.child('users').child(UID).set(user)
-          login_session['user'] = auth.create_user_with_email_and_password(email, password)
-          return redirect('/home')
+
+            user = auth.create_user_with_email_and_password(email, password)
+            login_session['user'] = user
+            login_session['quotes'] = []
+           
+            return redirect(url_for('home'))
 
         except:
             error = "Auth failed"
@@ -55,7 +54,7 @@ def signup():
             return render_template("error.html")
     
     
-  return render_template('signup.html')
+    return render_template('signup.html')
 
 
 
@@ -99,17 +98,26 @@ def second():
   return render_template('second.html')
 @app.route('/second_engine', methods=['POST', 'GET'])
 def second_engine():
-  calories = request.form['calories']
-  calories_gain = request.form['calories_gain']
-  calorie={
-    'calories_burnt': calories,
+    calories = request.form['calories']
+    calories_gain = request.form['calories_gain' ]
+    calorie={
+    'calories_burnt': calories ,
     'calories_gain': calories_gain
   }
-  UID = login_session['user']["localId"]
-  db.child("users").child(UID).child("calories").set(calorie)
+    UID = login_session['user']["localId"]
+    db.child("users").child(UID).child("calories").set(calorie)
+    com = db.child("users").child(UID).child("calories").get().val()
+    calorie1={
+    'calories_burnt': int(com['calories_burnt'])+int(calories) ,
+    'calories_gain': int(com['calories_gain'])+int(calories_gain)
+  }
+    db.child("users").child(UID).child("calories").update(calorie1)
+    # com2 += db.child("users").child(UID).child("calories_gain").get().val()
   # login_session['calories_gain'] = calories_gain
-  my_cals = db.child("users").child(UID).child("calories").get().val()
-  return render_template("second_engine.html" , cals = my_cals)
+    my_cals = db.child("users").child(UID).child("calories").get().val()
+    return render_template("second_engine.html" , cals = my_cals)
+
+
 @app.route('/home', methods=['POST','GET'])
 def home():
     return render_template("/home.html")
@@ -117,6 +125,13 @@ def home():
 def orginal():
     return render_template("/orginal.html")           
             
+
+# def combine():
+
+#     com = db.child("users").child(UID).child("calories").get().val()
+#     com+=
+#     return com2
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -135,7 +150,7 @@ def submit():
 @app.route('/firstengine', methods=['POST', 'GET'])
 def firstengine():
   
-    age = int(request.form.get('age'))
+    age = request.form.get('age')
     weight = float(request.form.get('weight'))
     height = int(request.form.get('height'))
     gender = request.form.get('gender')
